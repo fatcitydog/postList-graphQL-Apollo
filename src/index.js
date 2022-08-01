@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles/index.css';
+import { BrowserRouter } from 'react-router-dom';
+
 import App from './components/App';
+import './styles/index.css';
 
 import {
   ApolloProvider,
@@ -16,8 +18,9 @@ const client = new ApolloClient({ link: httpLink, cache: new InMemoryCache() })
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>
 )
