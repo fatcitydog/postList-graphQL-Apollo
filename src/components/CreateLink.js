@@ -43,13 +43,14 @@ const CreateLink = () => {
       description: e.target.value
     })
   }
-
+  console.log(formState)
   const handleURLInput = (e) => {
     setFormState({
       ...formState,
       url: e.target.value
     })
   }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
