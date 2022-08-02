@@ -24,17 +24,22 @@ async function post(parent, args, context, info) {
 }
 
 async function signup(parent, args, context, info) {
-  const password = await bcrypt.hash(args.password, 10);
-  const user = await context.prisma.user.create({
-    data: { ...args, password }
-  });
+  try {
+    const password = await bcrypt.hash(args.password, 10);
+    const user = await context.prisma.user.create({
+      data: { ...args, password }
+    });
 
-  const token = jwt.sign({ userId: user.id }, APP_SECRET);
+    const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
-  return {
-    token,
-    user
-  };
+    return {
+      token,
+      user
+    };
+  } catch (err) {
+    console.log(err)
+  }
+
 }
 
 async function login(parent, args, context, info) {
