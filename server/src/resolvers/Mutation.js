@@ -24,21 +24,18 @@ async function post(parent, args, context, info) {
 }
 
 async function signup(parent, args, context, info) {
-  try {
-    const password = await bcrypt.hash(args.password, 10);
-    const user = await context.prisma.user.create({
-      data: { ...args, password }
-    });
 
-    const token = jwt.sign({ userId: user.id }, APP_SECRET);
+  const password = await bcrypt.hash(args.password, 10);
+  const user = await context.prisma.user.create({
+    data: { ...args, password }
+  });
 
-    return {
-      token,
-      user
-    };
-  } catch (err) {
-    console.log(err)
-  }
+  const token = jwt.sign({ userId: user.id }, APP_SECRET);
+
+  return {
+    token,
+    user
+  };
 
 }
 
@@ -46,6 +43,7 @@ async function login(parent, args, context, info) {
   const user = await context.prisma.user.findUnique({
     where: { email: args.email }
   });
+
   if (!user) {
     throw new Error('No such user found');
   }
@@ -68,7 +66,7 @@ async function login(parent, args, context, info) {
 
 async function vote(parent, args, context, info) {
   const { userId } = context;
-
+  console.log(context, "c")
   const vote = await context.prisma.vote.findUnique({
     where: {
       linkId_userId: {
